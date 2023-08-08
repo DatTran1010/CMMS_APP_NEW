@@ -9,7 +9,7 @@ import {
 import React, {useState, useEffect} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // import Checkbox from 'expo-checkbox';
-
+import Checkbox from '../../components/Checkbox';
 import colors from '../../Common/colors';
 import Line from '../../components/Line.js';
 import {heightTextInput} from '../../Common/dimentions';
@@ -58,6 +58,11 @@ const ModalListPhuTung = ({
                           onValueChange={(value) => onChecked(value, item)}
                           style={{ flex: 1 }}
                         /> */}
+                        <Checkbox
+                          label=""
+                          value={item.checked}
+                          onPress={() => onChecked(item)}
+                        />
                       </TouchableOpacity>
                     </View>
                   </View>

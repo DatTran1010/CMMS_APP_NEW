@@ -15,6 +15,7 @@ import {heightTextArea, windowHeight} from '../../Common/dimentions';
 import DropDown from '../../components/DropDown';
 import CalendarCustom from '../../components/Calendar';
 import HeaderApp from '../Home/HeaderApp';
+import Checkbox from '../../components/Checkbox';
 const Request = ({navigation}) => {
   const [dataDiaDiem, setDataDiaDiem] = useState([
     {label: 'Trong xưởng', value: 1},
@@ -31,6 +32,9 @@ const Request = ({navigation}) => {
   const [dateMayHong, setDateMayHong] = useState(new Date());
   const setDateDNgay = date => {
     setDateMayHong(date);
+  };
+  const handleCheckMayHong = () => {
+    setMayHong(!mayHong);
   };
   return (
     <View style={styles.container}>
@@ -81,24 +85,11 @@ const Request = ({navigation}) => {
               />
             </View>
             <View style={[styles.viewInput]}>
-              <TouchableOpacity
-                onPress={() => {
-                  setMayHong(!mayHong);
-                }}
-                style={{flexDirection: 'row'}}>
-                {/* <Checkbox
-                                    value={mayHong}
-                                    color={colors.primary}
-                                /> */}
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: '300',
-                    paddingLeft: 10,
-                  }}>
-                  Máy hỏng
-                </Text>
-              </TouchableOpacity>
+              <Checkbox
+                label="Máy hỏng"
+                value={mayHong}
+                onPress={handleCheckMayHong}
+              />
             </View>
             {mayHong && (
               <View style={[styles.viewInput]}>

@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import React, {useState, useRef} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 // import {FontAwesome5} from '@expo/vector-icons';
 
 import colors from '../../Common/colors';
@@ -95,9 +97,11 @@ const Maintenance = ({navigation}) => {
     setShowModalPT(false);
   };
 
-  const handleCheckedPT = (value, dataIndex) => {
+  const handleCheckedPT = dataIndex => {
     const updateDataPhuTung = dataPhuTung.map(item =>
-      item.id_PT === dataIndex.id_PT ? {...item, checked: value} : {...item},
+      item.id_PT === dataIndex.id_PT
+        ? {...item, checked: !dataIndex.checked}
+        : {...item},
     );
     setDataPhuTung(updateDataPhuTung);
   };
@@ -309,7 +313,7 @@ const Maintenance = ({navigation}) => {
             <Ionicons name="add-outline" size={20} color={colors.primary} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconStyle}>
-            <Ionicons name="warehouse" size={20} color={colors.primary} />
+            <FontAwesome5 name="warehouse" size={20} color={colors.primary} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconStyle}>
             <Ionicons name="time-outline" size={20} color={colors.primary} />

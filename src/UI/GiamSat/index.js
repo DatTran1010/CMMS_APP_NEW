@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import React, {useState, useRef} from 'react';
 // import Checkbox from "expo-checkbox";
+import Checkbox from '../../components/Checkbox';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import colors from '../../Common/colors';
@@ -38,7 +39,7 @@ const Monitor = ({navigation}) => {
 
   const [selectedIndexRows, setSelectedIndexRows] = useState(null);
   const [hiddenRows, setHiddenRows] = useState([]);
-  const [checkedHideDetail, setCheckedHideDetail] = useState(false);
+  const [checkedHideDetail, setCheckedHideDetail] = useState(true);
 
   const onPressOut = () => {
     setSelectedIndexRows(null);
@@ -47,6 +48,7 @@ const Monitor = ({navigation}) => {
   const onPressInListGiamSat = index => {
     setSelectedIndexRows(index);
   };
+
   const handleItemListGiamSat = index => {
     // Kiểm tra xem dòng có trong mảng hiddenRows chưa, nếu có thì ẩn đi, nếu không thì hiển thị
     if (hiddenRows.includes(index)) {
@@ -57,11 +59,17 @@ const Monitor = ({navigation}) => {
 
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
-  const handleCheckedHideDetail = () => {
-    setCheckedHideDetail(!checkedHideDetail);
 
+  const handleCheckedHideDetail = () => {
+    const newCheckedHideDetail = !checkedHideDetail;
+
+    console.log(newCheckedHideDetail);
+    setCheckedHideDetail(newCheckedHideDetail);
     const newHiddenRows = data.map((_, index) => index);
-    setHiddenRows(checkedHideDetail ? newHiddenRows : []);
+
+    setHiddenRows(newCheckedHideDetail ? [] : newHiddenRows);
+    console.log(hiddenRows);
+
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   };
   //#region  Xử lý radio button
@@ -129,12 +137,11 @@ const Monitor = ({navigation}) => {
                 </View>
               ))}
               <View style={styles.viewInput}>
-                <TouchableOpacity
+                <Checkbox
+                  label="Ẩn chi tiết"
+                  value={checkedHideDetail}
                   onPress={handleCheckedHideDetail}
-                  style={styles.checkHideDetail}>
-                  {/* <Checkbox value={checkedHideDetail} color={colors.primary} /> */}
-                  <Text style={{flex: 1, marginLeft: 12}}>Ẩn chi tiết</Text>
-                </TouchableOpacity>
+                />
               </View>
 
               <View style={styles.line}></View>

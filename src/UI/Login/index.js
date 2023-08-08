@@ -7,16 +7,16 @@ import {
   Keyboard,
   Image,
 } from 'react-native';
-import React, {useContext} from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-// import Checkbox from "expo-checkbox";
+import React, {useContext, useState} from 'react';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch} from 'react-redux';
 import Toast from 'react-native-toast-message';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import colors from '../../Common/colors';
 import globalstyle from '../../Common/globalstyle';
 import TextInput from '../../components/TextInput.js';
+import Checkbox from '../../components/Checkbox';
 import {
   windowWidth,
   windowHeight,
@@ -27,6 +27,12 @@ import {MainConText} from '../../ConText/MainContext';
 
 const Login = ({navigation}) => {
   const {token, setToken} = useContext(MainConText);
+  const [checkSavePassword, setCheckSavePassword] = useState(0);
+
+  const handleCheckedSavePassword = () => {
+    setCheckSavePassword(!checkSavePassword);
+  };
+
   const dispatch = useDispatch();
 
   const handleLogin = async () => {
@@ -96,27 +102,16 @@ const Login = ({navigation}) => {
                   secureTextEntry
                   height={heightTextInput}
                 />
-                <TouchableOpacity style={styles.forgotPassword}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    {/* <Checkbox
-                                            value={true}
-                                            color={colors.primary}
-                                        /> */}
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: '300',
-                        paddingLeft: 10,
-                      }}>
-                      Remember
-                    </Text>
-                  </View>
-                  <Text style={styles.textForgot}>Forgot your password ?</Text>
-                </TouchableOpacity>
+                <View style={styles.forgotPassword}>
+                  <Checkbox
+                    label="Lưu mật khẩu"
+                    value={checkSavePassword}
+                    onPress={handleCheckedSavePassword}
+                  />
+                  <TouchableOpacity>
+                    <Text style={styles.textForgot}>Quên mật khẩu ?</Text>
+                  </TouchableOpacity>
+                </View>
 
                 <TouchableOpacity style={styles.btnLogin} onPress={handleLogin}>
                   <Text style={styles.textbtnLogin}>LOGIN</Text>
@@ -184,6 +179,7 @@ const styles = StyleSheet.create({
   textForgot: {
     fontWeight: '300',
     fontSize: 16,
+    color: colors.black,
   },
 
   btnLogin: {
@@ -208,6 +204,7 @@ const styles = StyleSheet.create({
   textMoreLogin: {
     fontSize: 16,
     fontWeight: '300',
+    color: colors.black,
   },
 
   social: {
