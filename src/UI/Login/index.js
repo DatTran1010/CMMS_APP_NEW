@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   Keyboard,
   Image,
+  Alert,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch} from 'react-redux';
 import Toast from 'react-native-toast-message';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import messaging from '@react-native-firebase/messaging';
 
 import colors from '../../Common/colors';
 import globalstyle from '../../Common/globalstyle';
@@ -24,6 +26,11 @@ import {
 } from '../../Common/dimentions';
 import callApi from '.././../ConText/api.js';
 import {MainConText} from '../../ConText/MainContext';
+import {
+  getToken,
+  notificationListenr,
+  requestUserPermission,
+} from '../../Common/notification';
 
 const Login = ({navigation}) => {
   const {token, setToken} = useContext(MainConText);
@@ -36,38 +43,52 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
 
   const handleLogin = async () => {
-    const endpoint = '/api/account/login';
-    const method = 'POST';
-    const data = {
-      employeeCode: '0003',
-      password: '123456',
-      token: 'string',
-    };
-    const response = await callApi(dispatch, endpoint, method, data);
-    try {
-      if (response && response.data.statusCode == 200) {
-        setToken(response.data.responseData.token);
-        navigation.navigate('Home');
-        Toast.show({
-          type: 'success',
-          text1: 'Thông báo',
-          text2: 'Đăng nhập thành công',
-        });
-      } else {
-        Toast.show({
-          type: 'success',
-          text1: 'Thông báo',
-          text2: 'Đăng nhập không thành công',
-        });
-      }
-    } catch {
-      Toast.show({
-        type: 'error',
-        text1: 'Thông báo',
-        text2: 'Đăng nhập không thành công',
-      });
-    }
+    // const endpoint = '/api/account/login';
+    // const method = 'POST';
+    // const data = {
+    //   employeeCode: '0003',
+    //   password: '123456',
+    //   token: 'string',
+    // };
+    // const response = await callApi(dispatch, endpoint, method, data);
+    // try {
+    //   if (response && response.data.statusCode == 200) {
+    //     setToken(response.data.responseData.token);
+    //     navigation.navigate('Home');
+    //     Toast.show({
+    //       type: 'success',
+    //       text1: 'Thông báo',
+    //       text2: 'Đăng nhập thành công',
+    //     });
+    //   } else {
+    //     Toast.show({
+    //       type: 'success',
+    //       text1: 'Thông báo',
+    //       text2: 'Đăng nhập không thành công',
+    //     });
+    //   }
+    // } catch {
+    //   Toast.show({
+    //     type: 'error',
+    //     text1: 'Thông báo',
+    //     text2: 'Đăng nhập không thành công',
+    //   });
+    // }
   };
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    requestUserPermission();
+    notificationListenr();
+    getToken();
+  }, []);
 
   return (
     <KeyboardAwareScrollView
