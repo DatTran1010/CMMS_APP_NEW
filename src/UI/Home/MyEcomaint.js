@@ -137,7 +137,7 @@ const MyEcomaint = ({navigation}) => {
     Animated.timing(spinArrowValue, {
       toValue: hideArrow ? 0 : 1,
       duration: 300,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   }, [hideArrow, spinArrowValue]);
 

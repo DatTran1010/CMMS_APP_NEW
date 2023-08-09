@@ -17,6 +17,7 @@ import Overlay from './src/Common/Overlay';
 import store from './src/Redux/store';
 import Maintenance from './src/UI/BaoTri';
 import Monitor from './src/UI/GiamSat';
+import DeviceMove from './src/UI/DeviceMove';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -96,6 +97,12 @@ export default function App() {
               <Stack.Screen
                 name="Monitor"
                 component={Monitor}
+                options={{headerShown: true}}
+              />
+
+              <Stack.Screen
+                name="DeviceMove"
+                component={DeviceMove}
                 options={{headerShown: true}}
               />
               {/* <Stack.Screen
